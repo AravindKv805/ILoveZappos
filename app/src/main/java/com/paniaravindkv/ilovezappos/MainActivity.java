@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -56,16 +57,60 @@ public class MainActivity extends Activity {
 
             Log.i("INFO", "API call result count - " + resultInJSON.getString("currentResultCount"));
 
-            if (resultInJSON.getString("currentResultCount").equals("0")) {
+            if (isEmptyResults(resultInJSON)) {
 
-                Toast.makeText(getApplicationContext(), "No results found!!", Toast.LENGTH_LONG).show();
+                noResultsToast();
+            } else {
+                JSONObject firstResult = getFirstResult(resultInJSON);
+
+                if (firstResult != null) {
+                    Log.i("INFO", "firstResult - " + firstResult);
+
+//                    TODO: go to products page
+                } else {
+                    noResultsToast();
+                }
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
+            errorToast();
         } catch (ExecutionException e) {
             e.printStackTrace();
+            errorToast();
+        } catch (JSONException e) {
+            e.printStackTrace();
+            errorToast();
+        }
+    }
+
+    public boolean isEmptyResults(JSONObject resultInJSON) {
+        try {
+            return resultInJSON.getString("currentResultCount").equals("0");
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        return true;
+    }
+
+    public JSONObject getFirstResult(JSONObject resultInJSON) {
+
+        try {
+
+            JSONArray resultInJSONArray = (JSONArray) resultInJSON.get("results");
+            return (JSONObject) resultInJSONArray.get(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
+    }
+
+    public void noResultsToast() {
+        Toast.makeText(getApplicationContext(), "No results found!!", Toast.LENGTH_LONG).show();
+    }
+
+    public void errorToast() {
+        Toast.makeText(getApplicationContext(), "Could not complete search!!", Toast.LENGTH_LONG).show();
     }
 }
