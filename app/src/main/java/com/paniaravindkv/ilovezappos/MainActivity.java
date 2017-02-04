@@ -2,6 +2,7 @@ package com.paniaravindkv.ilovezappos;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,6 +29,10 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        View bgImage = findViewById(R.id.activity_main);
+        Drawable background = bgImage.getBackground();
+        background.setAlpha(100);
 
         searchEditText = (EditText) findViewById(R.id.searchEditText);
     }
