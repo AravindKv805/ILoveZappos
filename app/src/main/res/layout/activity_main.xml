@@ -22,8 +22,9 @@
         android:layout_marginTop="60dp"
         android:id="@+id/searchEditText"
         android:hint="Search..."
-        android:textColor="@android:color/white"
-        android:textColorHint="?android:attr/textColorHintInverse" />
+        android:textColorHint="?android:attr/textColorHintInverse"
+        style="@android:style/Widget.Material.EditText"
+        android:textColor="?android:attr/textColorPrimaryInverse" />
 
     <Button
         android:text="Search"
@@ -33,5 +34,17 @@
         android:layout_below="@+id/searchEditText"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
-        android:id="@+id/searchAction" />
+        android:id="@+id/searchButton"
+        android:onClick="searchAction" />
+
+    <Button
+        android:text="Search"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/searchEditText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:id="@+id/button2"
+        android:onClick="searchAction" />
 </RelativeLayout>
