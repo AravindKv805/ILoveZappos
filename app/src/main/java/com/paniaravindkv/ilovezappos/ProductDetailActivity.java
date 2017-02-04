@@ -1,9 +1,18 @@
 package com.paniaravindkv.ilovezappos;
 
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
+import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
+import android.widget.ImageView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.concurrent.ExecutionException;
+
+import com.paniaravindkv.ilovezappos.databinding.ActivityProductDetailBinding;
 
 /**
  * Created by Pani Aravind on 2/3/17.
@@ -11,14 +20,55 @@ import android.view.View;
 
 public class ProductDetailActivity extends Activity {
 
+    ImageDownloadTask task;
+    Product product;
+    ImageView productThumbnailImageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
 
-        View bgImage = findViewById(R.id.activity_product_detail);
-        Drawable background = bgImage.getBackground();
-        background.setAlpha(80);
+        task = new ImageDownloadTask();
+
+        Bitmap downloadedImage;
+
+        ActivityProductDetailBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_product_detail);
+
+        try {
+            JSONObject productInJSON = new JSONObject(getIntent().getStringExtra("productInJSON"));
+
+            Log.i("INFO", "ProductJSON - " + productInJSON);
+
+            product = new Product(productInJSON.getString("productName"),
+                    productInJSON.getString("productId"),
+                    productInJSON.getString("brandName"),
+                    productInJSON.getString("originalPrice"),
+                    productInJSON.getString("price"),
+                    productInJSON.getString("percentOff"),
+                    productInJSON.getString("productUrl"),
+                    productInJSON.getString("thumbnailImageUrl"),
+                    productInJSON.getString("styleId"),
+                    productInJSON.getString("colorId")
+            );
+
+            downloadedImage = task.execute(product.getThumbnailImageUrl()).get();
+            if (downloadedImage != null) {
+                Log.i("INFO", "not null");
+                productThumbnailImageView = (ImageView) findViewById(R.id.productThumbnailImageView);
+                productThumbnailImageView.setImageBitmap(downloadedImage);
+            }
+            binding.setProduct(product);
+
+            Log.i("INFO", "Product image  - " + productThumbnailImageView.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

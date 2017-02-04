@@ -36,6 +36,21 @@ public class MainActivity extends Activity {
         background.setAlpha(100);
 
         searchEditText = (EditText) findViewById(R.id.searchEditText);
+        searchEditText.setText("");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        searchEditText = (EditText) findViewById(R.id.searchEditText);
+        searchEditText.setText("");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        searchEditText = (EditText) findViewById(R.id.searchEditText);
+        searchEditText.setText("");
     }
 
     public void searchAction(View view) {
@@ -74,7 +89,7 @@ public class MainActivity extends Activity {
                 if (firstResult != null) {
                     Log.i("INFO", "firstResult - " + firstResult);
 
-                    Intent intent = new Intent(MainActivity.this, ProductDetailActivity.class);
+                    Intent intent = new Intent(MainActivity.this, ProductDetailActivity.class).putExtra("productInJSON", firstResult.toString());
                     startActivity(intent);
                 } else {
                     noResultsToast();
