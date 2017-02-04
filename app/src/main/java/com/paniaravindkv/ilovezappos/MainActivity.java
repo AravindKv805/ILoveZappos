@@ -2,6 +2,7 @@ package com.paniaravindkv.ilovezappos;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -73,7 +74,8 @@ public class MainActivity extends Activity {
                 if (firstResult != null) {
                     Log.i("INFO", "firstResult - " + firstResult);
 
-//                    TODO: go to products page
+                    Intent intent = new Intent(MainActivity.this, ProductDetailActivity.class);
+                    startActivity(intent);
                 } else {
                     noResultsToast();
                 }
