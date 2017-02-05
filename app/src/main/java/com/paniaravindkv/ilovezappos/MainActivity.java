@@ -57,7 +57,6 @@ public class MainActivity extends Activity {
 
         String searchText = searchEditText.getText().toString();
 
-        Log.i("INFO", "Search Button Tapped");
         Log.i("INFO", "Search Text - " + searchText);
 
         downloadTask = new DownloadTask();
@@ -77,8 +76,6 @@ public class MainActivity extends Activity {
             Log.i("INFO", "API call result - " + result);
 
             JSONObject resultInJSON = new JSONObject(result);
-
-            Log.i("INFO", "API call result count - " + resultInJSON.getString("currentResultCount"));
 
             if (isEmptyResults(resultInJSON)) {
 
