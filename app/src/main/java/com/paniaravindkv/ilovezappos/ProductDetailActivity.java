@@ -3,9 +3,11 @@ package com.paniaravindkv.ilovezappos;
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
+import android.graphics.Paint;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,6 +25,9 @@ public class ProductDetailActivity extends Activity {
     ImageDownloadTask task;
     Product product;
     ImageView productThumbnailImageView;
+    TextView originalPriceTextView;
+    TextView priceTextView;
+    TextView percentOffTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +43,6 @@ public class ProductDetailActivity extends Activity {
         try {
             JSONObject productInJSON = new JSONObject(getIntent().getStringExtra("productInJSON"));
 
-            Log.i("INFO", "ProductJSON - " + productInJSON);
-
             product = new Product(productInJSON.getString("productName"),
                     productInJSON.getString("productId"),
                     productInJSON.getString("brandName"),
@@ -54,13 +57,23 @@ public class ProductDetailActivity extends Activity {
 
             downloadedImage = task.execute(product.getThumbnailImageUrl()).get();
             if (downloadedImage != null) {
-                Log.i("INFO", "not null");
                 productThumbnailImageView = (ImageView) findViewById(R.id.productThumbnailImageView);
                 productThumbnailImageView.setImageBitmap(downloadedImage);
             }
-            binding.setProduct(product);
 
-            Log.i("INFO", "Product image  - " + productThumbnailImageView.toString());
+            originalPriceTextView = (TextView) findViewById(R.id.originalPriceTextView);
+            priceTextView = (TextView) findViewById(R.id.priceTextView);
+            percentOffTextView = (TextView) findViewById(R.id.percentOffTextView);
+
+            if (product.getOriginalPrice().equals(product.getPrice())) {
+                originalPriceTextView.setVisibility(View.GONE);
+                percentOffTextView.setVisibility(View.GONE);
+            } else {
+                originalPriceTextView.setPaintFlags(originalPriceTextView.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+            }
+
+
+            binding.setProduct(product);
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
