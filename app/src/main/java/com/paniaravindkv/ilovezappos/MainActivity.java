@@ -59,6 +59,11 @@ public class MainActivity extends Activity {
 
         Log.i("INFO", "Search Text - " + searchText);
 
+        if (searchText.equals("")) {
+            invalidTextToast();
+            return;
+        }
+
         downloadTask = new DownloadTask();
 
         String baseUrl = getString(R.string.api_base_url);
@@ -132,6 +137,10 @@ public class MainActivity extends Activity {
 
     public void noResultsToast() {
         Toast.makeText(getApplicationContext(), "No results found!!", Toast.LENGTH_LONG).show();
+    }
+
+    public void invalidTextToast() {
+        Toast.makeText(getApplicationContext(), "Please enter a valid text!!", Toast.LENGTH_SHORT).show();
     }
 
     public void errorToast() {
