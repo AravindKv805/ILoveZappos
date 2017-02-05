@@ -1,10 +1,10 @@
 package com.paniaravindkv.ilovezappos;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -21,7 +21,11 @@ import java.util.concurrent.ExecutionException;
  * Created by Pani Aravind on 2/3/17.
  */
 
-public class MainActivity extends Activity {
+/**
+ * <a href="https://icons8.com/web-app/31302/Add-Shopping-Cart">Add shopping cart icon credits</a>
+ */
+
+public class MainActivity extends AppCompatActivity {
 
     EditText searchEditText;
     DownloadTask downloadTask;

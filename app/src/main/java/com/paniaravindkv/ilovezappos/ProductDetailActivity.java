@@ -1,10 +1,10 @@
 package com.paniaravindkv.ilovezappos;
 
-import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,7 +20,7 @@ import com.paniaravindkv.ilovezappos.databinding.ActivityProductDetailBinding;
  * Created by Pani Aravind on 2/3/17.
  */
 
-public class ProductDetailActivity extends Activity {
+public class ProductDetailActivity extends AppCompatActivity {
 
     ImageDownloadTask task;
     Product product;
