@@ -1,11 +1,13 @@
 package com.paniaravindkv.ilovezappos;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,6 +40,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     TextView percentOffTextView;
 
     private int cartCount = 0;
+    private android.support.v7.widget.ShareActionProvider shareActionProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +95,15 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         MenuItem shareMenuItem = menu.findItem(R.id.shareItem);
         shareMenuItem.setIcon(R.drawable.ic_share_menuitem);
+
+        shareActionProvider = (android.support.v7.widget.ShareActionProvider) MenuItemCompat.getActionProvider(shareMenuItem);
+
+        String productAsString = getIntent().getStringExtra("product");
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "ilovezappos://open?productData=" + productAsString);
+        shareActionProvider.setShareIntent(shareIntent);
 
         return true;
     }

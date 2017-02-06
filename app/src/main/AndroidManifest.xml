@@ -17,9 +17,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".ProductDetailActivity"
             android:theme="@style/AppTheme">
+
+            <intent-filter>
+                <data android:scheme="ilovezappos" android:host="open"></data>
+                <action android:name="android.intent.action.VIEW"></action>
+                <category android:name="android.intent.category.DEFAULT"></category>
+                <category android:name="android.intent.category.BROWSABLE"></category>
+            </intent-filter>
+
         </activity>
+
     </application>
 
 </manifest>
