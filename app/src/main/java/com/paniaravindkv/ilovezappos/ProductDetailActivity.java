@@ -14,12 +14,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import android.widget.Toast;
 
 import java.util.concurrent.ExecutionException;
 
+import com.google.gson.Gson;
 import com.paniaravindkv.ilovezappos.databinding.ActivityProductDetailBinding;
 
 /**
@@ -49,19 +48,11 @@ public class ProductDetailActivity extends AppCompatActivity {
         ActivityProductDetailBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_product_detail);
 
         try {
-            JSONObject productInJSON = new JSONObject(getIntent().getStringExtra("productInJSON"));
 
-            product = new Product(productInJSON.getString("productName"),
-                    productInJSON.getString("productId"),
-                    productInJSON.getString("brandName"),
-                    productInJSON.getString("originalPrice"),
-                    productInJSON.getString("price"),
-                    productInJSON.getString("percentOff"),
-                    productInJSON.getString("productUrl"),
-                    productInJSON.getString("thumbnailImageUrl"),
-                    productInJSON.getString("styleId"),
-                    productInJSON.getString("colorId")
-            );
+            Gson gs = new Gson();
+            String productAsString = getIntent().getStringExtra("product");
+
+            product = gs.fromJson(productAsString, Product.class);
 
             downloadedImage = task.execute(product.getThumbnailImageUrl()).get();
             if (downloadedImage != null) {
@@ -81,8 +72,6 @@ public class ProductDetailActivity extends AppCompatActivity {
             }
 
             binding.setProduct(product);
-        } catch (JSONException e) {
-            e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -131,8 +120,13 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         Log.i("INFO", "add to cart clicked");
 
-        if (cartCount == 0)
+        if (cartCount == 0) {
             cartCount++;
+            Toast.makeText(getApplicationContext(), "Added to Cart!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Already in cart", Toast.LENGTH_SHORT).show();
+        }
+
         invalidateOptionsMenu();
     }
 

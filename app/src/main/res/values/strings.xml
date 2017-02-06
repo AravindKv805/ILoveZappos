@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">ILoveZappos</string>
-    <string name="api_base_url">https://api.zappos.com/Search</string>
+    <string name="api_base_url">https://api.zappos.com</string>
     <string name="api_key">b743e26728e16b81da139182bb2094357c31d331</string>
 </resources>

@@ -1,21 +1,53 @@
 package com.paniaravindkv.ilovezappos;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Pani Aravind on 2/3/17.
  */
 
 public class Product {
 
-    String productName;
-    String productId;
-    String brandName;
-    String originalPrice;
-    String price;
-    String percentOff;
-    String productUrl;
-    String thumbnailImageUrl;
-    String styleId;
-    String colorId;
+    @SerializedName("productName")
+    @Expose
+    private String productName;
+
+    @SerializedName("productId")
+    @Expose
+    private String productId;
+
+    @SerializedName("brandName")
+    @Expose
+    private String brandName;
+
+    @SerializedName("originalPrice")
+    @Expose
+    private String originalPrice;
+
+    @SerializedName("price")
+    @Expose
+    private String price;
+
+    @SerializedName("percentOff")
+    @Expose
+    private String percentOff;
+
+    @SerializedName("productUrl")
+    @Expose
+    private String productUrl;
+
+    @SerializedName("thumbnailImageUrl")
+    @Expose
+    private String thumbnailImageUrl;
+
+    @SerializedName("styleId")
+    @Expose
+    private String styleId;
+
+    @SerializedName("colorId")
+    @Expose
+    private String colorId;
 
     public Product(String productName, String productId, String brandName, String originalPrice, String price, String percentOff, String productUrl, String thumbnailImageUrl, String styleId, String colorId) {
         this.productName = productName;

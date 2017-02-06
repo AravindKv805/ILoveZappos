@@ -11,11 +11,14 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
-import java.util.concurrent.ExecutionException;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Pani Aravind on 2/3/17.
@@ -28,7 +31,7 @@ import java.util.concurrent.ExecutionException;
 public class MainActivity extends AppCompatActivity {
 
     EditText searchEditText;
-    DownloadTask downloadTask;
+    ProductsAPI productsAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
         background.setAlpha(100);
 
         searchEditText = (EditText) findViewById(R.id.searchEditText);
-        searchEditText.setText("");
     }
 
     @Override
@@ -67,76 +69,51 @@ public class MainActivity extends AppCompatActivity {
             invalidTextToast();
             return;
         }
-
-        downloadTask = new DownloadTask();
-
-        String baseUrl = getString(R.string.api_base_url);
         String apiKey = getString(R.string.api_key);
 
-        String urlString = baseUrl + "?term=" + searchText + "&key=" + apiKey;
+        Gson gson = new GsonBuilder().create();
 
-        String result = "";
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(getResources().getString(R.string.api_base_url))
+                .addConverterFactory(GsonConverterFactory.create(gson)).build();
 
-        Log.i("INFO", "Search API URL - " + urlString);
+        productsAPI = retrofit.create(ProductsAPI.class);
 
-        try {
-            result = downloadTask.execute(urlString).get();
+        Call<ProductsAPIResult> productsAPIResult = productsAPI.getProducts(searchText, apiKey);
 
-            Log.i("INFO", "API call result - " + result);
+        productsAPIResult.enqueue(new Callback<ProductsAPIResult>() {
+            @Override
+            public void onResponse(Call<ProductsAPIResult> call, Response<ProductsAPIResult> response) {
 
-            JSONObject resultInJSON = new JSONObject(result);
+                Log.i("INFO", "Response - " + response.body().getCurrentResultCount());
 
-            if (isEmptyResults(resultInJSON)) {
+                if (response.body().getCurrentResultCount().equals("0")) {
 
-                noResultsToast();
-            } else {
-                JSONObject firstResult = getFirstResult(resultInJSON);
-
-                if (firstResult != null) {
-                    Log.i("INFO", "firstResult - " + firstResult);
-
-                    Intent intent = new Intent(MainActivity.this, ProductDetailActivity.class).putExtra("productInJSON", firstResult.toString());
-                    startActivity(intent);
-                } else {
                     noResultsToast();
+                } else {
+
+                    Gson gs = new Gson();
+                    String firstResult = gs.toJson(response.body().getProducts().get(0));
+
+                    if (firstResult != null) {
+                        Intent intent = new Intent(MainActivity.this, ProductDetailActivity.class);
+                        intent.putExtra("product", firstResult);
+                        startActivity(intent);
+                    } else {
+                        noResultsToast();
+                    }
                 }
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            errorToast();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-            errorToast();
-        } catch (JSONException e) {
-            e.printStackTrace();
-            errorToast();
-        }
+
+            @Override
+            public void onFailure(Call<ProductsAPIResult> call, Throwable t) {
+                Log.i("ERROR", t.getMessage());
+                errorToast();
+            }
+        });
 
         InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         mgr.hideSoftInputFromWindow(searchEditText.getWindowToken(), 0);
-    }
-
-    public boolean isEmptyResults(JSONObject resultInJSON) {
-        try {
-            return resultInJSON.getString("currentResultCount").equals("0");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return true;
-    }
-
-    public JSONObject getFirstResult(JSONObject resultInJSON) {
-
-        try {
-
-            JSONArray resultInJSONArray = (JSONArray) resultInJSON.get("results");
-            return (JSONObject) resultInJSONArray.get(0);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-
     }
 
     public void noResultsToast() {
