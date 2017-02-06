@@ -24,6 +24,9 @@ import com.paniaravindkv.ilovezappos.databinding.ActivityProductDetailBinding;
 /**
  * Created by Pani Aravind on 2/3/17.
  */
+/**
+ * <a href="https://icons8.com/web-app/31302/Add-Shopping-Cart">Add shopping cart icon credits</a>
+ */
 
 public class ProductDetailActivity extends AppCompatActivity {
 
@@ -84,8 +87,11 @@ public class ProductDetailActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        MenuItem menuItem = menu.findItem(R.id.cartItem);
-        menuItem.setIcon(buildCounterDrawable(cartCount, R.drawable.ic_cart_menuitem));
+        MenuItem cartMenuItem = menu.findItem(R.id.cartItem);
+        cartMenuItem.setIcon(buildCounterDrawable(cartCount, R.drawable.ic_cart_menuitem));
+
+        MenuItem shareMenuItem = menu.findItem(R.id.shareItem);
+        shareMenuItem.setIcon(R.drawable.ic_share_menuitem);
 
         return true;
     }
