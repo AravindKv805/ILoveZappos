@@ -111,7 +111,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             counterTextPanel.setVisibility(View.GONE);
         } else {
             TextView textView = (TextView) view.findViewById(R.id.cartCounter);
-            textView.setText("" + count);
+            textView.setText("" + cartCount);
         }
 
         view.measure(
