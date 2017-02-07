@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
-        <variable name="product" type="com.paniaravindkv.ilovezappos.Product"/>
+        <variable name="product" type="com.paniaravindkv.ilovezappos.model.Product"/>
     </data>
     <LinearLayout
         android:id="@+id/activity_product_detail"

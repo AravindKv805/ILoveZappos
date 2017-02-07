@@ -1,4 +1,4 @@
-package com.paniaravindkv.ilovezappos;
+package com.paniaravindkv.ilovezappos.helper;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

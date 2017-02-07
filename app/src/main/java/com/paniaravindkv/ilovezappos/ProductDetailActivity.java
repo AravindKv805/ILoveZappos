@@ -22,6 +22,8 @@ import java.util.concurrent.ExecutionException;
 
 import com.google.gson.Gson;
 import com.paniaravindkv.ilovezappos.databinding.ActivityProductDetailBinding;
+import com.paniaravindkv.ilovezappos.helper.ImageDownloadTask;
+import com.paniaravindkv.ilovezappos.model.Product;
 
 /**
  * Created by Pani Aravind on 2/3/17.

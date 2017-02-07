@@ -1,7 +1,8 @@
-package com.paniaravindkv.ilovezappos;
+package com.paniaravindkv.ilovezappos.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.paniaravindkv.ilovezappos.model.Product;
 
 import java.util.List;
 

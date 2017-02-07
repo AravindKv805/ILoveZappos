@@ -1,4 +1,6 @@
-package com.paniaravindkv.ilovezappos;
+package com.paniaravindkv.ilovezappos.api;
+
+import com.paniaravindkv.ilovezappos.model.ProductsAPIResult;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
