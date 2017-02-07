@@ -146,6 +146,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         if (cartCount == 0) {
             cartCount++;
             doAnimation(view);
+            Toast.makeText(getApplicationContext(), "Added to cart!", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(getApplicationContext(), "Already in cart", Toast.LENGTH_SHORT).show();
         }
