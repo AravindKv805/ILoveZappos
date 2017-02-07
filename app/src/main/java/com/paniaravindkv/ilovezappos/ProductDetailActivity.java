@@ -1,5 +1,6 @@
 package com.paniaravindkv.ilovezappos;
 
+import android.animation.Animator;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +42,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     TextView originalPriceTextView;
     TextView priceTextView;
     TextView percentOffTextView;
+    MenuItem cartMenuItem;
 
     private int cartCount = 0;
     private android.support.v7.widget.ShareActionProvider shareActionProvider;
@@ -92,7 +95,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        MenuItem cartMenuItem = menu.findItem(R.id.cartItem);
+        cartMenuItem = menu.findItem(R.id.cartItem);
         cartMenuItem.setIcon(buildCounterDrawable(cartCount, R.drawable.ic_cart_menuitem));
 
         MenuItem shareMenuItem = menu.findItem(R.id.shareItem);
@@ -142,12 +145,26 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         if (cartCount == 0) {
             cartCount++;
-            Toast.makeText(getApplicationContext(), "Added to Cart!", Toast.LENGTH_SHORT).show();
+            doAnimation(view);
         } else {
             Toast.makeText(getApplicationContext(), "Already in cart", Toast.LENGTH_SHORT).show();
         }
 
         invalidateOptionsMenu();
+    }
+
+    public void doAnimation(View view) {
+
+        int cx = view.getWidth() / 2;
+        int cy = view.getHeight() / 2;
+
+        float finalRadius = (float) Math.hypot(cx, cy);
+
+        Animator anim = ViewAnimationUtils.createCircularReveal(view, cx, cy, 0, finalRadius);
+
+        view.setVisibility(View.VISIBLE);
+        anim.start();
+
     }
 
 }
