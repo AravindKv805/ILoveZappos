@@ -21,13 +21,13 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
         android:id="@+id/searchEditText"
-        android:hint="Search..."
+        android:hint="@string/search_hint"
         android:textColorHint="?android:attr/textColorHintInverse"
         style="@android:style/Widget.Material.EditText"
         android:textColor="?android:attr/textColorPrimaryInverse" />
 
     <Button
-        android:text="Search"
+        android:text="@string/search_button"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

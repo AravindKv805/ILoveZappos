@@ -6,16 +6,15 @@
 
     <item
         android:id="@+id/cartItem"
-        android:title="Shopping Cart"
+        android:title="@string/shopping_cart_title"
         android:orderInCategory="1"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/shareItem"
         android:orderInCategory="2"
-        android:title="Share"
-        app:actionProviderClass=
-            "android.support.v7.widget.ShareActionProvider"
+        android:title="@string/share_title"
+        app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
         app:showAsAction="always" />
 
 </menu>

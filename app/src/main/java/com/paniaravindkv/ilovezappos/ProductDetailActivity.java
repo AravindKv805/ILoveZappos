@@ -10,7 +10,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,9 +29,6 @@ import com.paniaravindkv.ilovezappos.model.Product;
 /**
  * Created by Pani Aravind on 2/3/17.
  */
-/**
- * <a href="https://icons8.com/web-app/31302/Add-Shopping-Cart">Add shopping cart icon credits</a>
- */
 
 public class ProductDetailActivity extends AppCompatActivity {
 
@@ -49,6 +45,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
 
@@ -63,10 +60,13 @@ public class ProductDetailActivity extends AppCompatActivity {
             Gson gs = new Gson();
             String productAsString = getIntent().getStringExtra("product");
 
+            //  Create product object from the product JSON string
             product = gs.fromJson(productAsString, Product.class);
 
+            //  Download product image from thumnailImageUrl
             downloadedImage = task.execute(product.getThumbnailImageUrl()).get();
             if (downloadedImage != null) {
+
                 productThumbnailImageView = (ImageView) findViewById(R.id.productThumbnailImageView);
                 productThumbnailImageView.setImageBitmap(downloadedImage);
             }
@@ -75,17 +75,22 @@ public class ProductDetailActivity extends AppCompatActivity {
             priceTextView = (TextView) findViewById(R.id.priceTextView);
             percentOffTextView = (TextView) findViewById(R.id.percentOffTextView);
 
+            //  If price is discounted, strike through the original price to show discount percent and new price. Else display price only.
             if (product.getOriginalPrice().equals(product.getPrice())) {
+
                 originalPriceTextView.setVisibility(View.GONE);
                 percentOffTextView.setVisibility(View.GONE);
             } else {
+
                 originalPriceTextView.setPaintFlags(originalPriceTextView.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
             }
 
             binding.setProduct(product);
         } catch (InterruptedException e) {
+
             e.printStackTrace();
         } catch (ExecutionException e) {
+
             e.printStackTrace();
         }
 
@@ -93,6 +98,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
         cartMenuItem = menu.findItem(R.id.cartItem);
@@ -103,6 +109,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         shareActionProvider = (android.support.v7.widget.ShareActionProvider) MenuItemCompat.getActionProvider(shareMenuItem);
 
+        // Share functionality attempted
         String productAsString = getIntent().getStringExtra("product");
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setAction(Intent.ACTION_SEND);
@@ -113,15 +120,19 @@ public class ProductDetailActivity extends AppCompatActivity {
         return true;
     }
 
+    //  Method to draw the counter button on top of the shopping cart icon in the toolbar
     private Drawable buildCounterDrawable(int count, int backgroundImageId) {
+
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.cart_menuitem_layout, null);
         view.setBackgroundResource(backgroundImageId);
 
         if (count == 0) {
+
             View counterTextPanel = view.findViewById(R.id.cartMenuLayout);
             counterTextPanel.setVisibility(View.GONE);
         } else {
+
             TextView textView = (TextView) view.findViewById(R.id.cartCounter);
             textView.setText("" + cartCount);
         }
@@ -141,19 +152,21 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     public void addToCart(View view) {
 
-        Log.i("INFO", "add to cart clicked");
-
+        //  Restrict user to add to cart only once. Can be removed if unnecessary.
         if (cartCount == 0) {
+
             cartCount++;
             doAnimation(view);
             Toast.makeText(getApplicationContext(), "Added to cart!", Toast.LENGTH_SHORT).show();
         } else {
+
             Toast.makeText(getApplicationContext(), "Already in cart", Toast.LENGTH_SHORT).show();
         }
 
         invalidateOptionsMenu();
     }
 
+    //  Animate the add to cart button
     public void doAnimation(View view) {
 
         int cx = view.getWidth() / 2;

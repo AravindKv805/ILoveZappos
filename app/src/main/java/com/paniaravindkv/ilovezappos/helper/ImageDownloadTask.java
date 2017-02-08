@@ -3,7 +3,6 @@ package com.paniaravindkv.ilovezappos.helper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,8 +28,6 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
             InputStream inputStream = httpURLConnection.getInputStream();
 
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-
-            Log.i("INFO", "In imagedownloadtask - " + bitmap.toString());
 
             return bitmap;
 

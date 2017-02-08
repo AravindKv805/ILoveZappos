@@ -14,6 +14,10 @@ import java.io.InputStreamReader;
  * Created by Pani Aravind on 2/3/17.
  */
 
+/**
+ * Replaced this in favour of Retrofit 2.0
+ */
+
 public class DownloadTask extends AsyncTask<String, Void, String> {
 
     @Override

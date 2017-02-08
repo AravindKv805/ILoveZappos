@@ -27,7 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 /**
- * <a href="https://icons8.com/web-app/31302/Add-Shopping-Cart">Add shopping cart icon credits</a>
+ * <a href="https://icons8.com/web-app/31302/Add-Shopping-Cart">Icon credits</a>
  */
 
 public class MainActivity extends AppCompatActivity {
@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onRestart() {
+
         super.onRestart();
         searchEditText = (EditText) findViewById(R.id.searchEditText);
         searchEditText.setText("");
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+
         super.onResume();
         searchEditText = (EditText) findViewById(R.id.searchEditText);
         searchEditText.setText("");
@@ -65,12 +68,13 @@ public class MainActivity extends AppCompatActivity {
 
         String searchText = searchEditText.getText().toString();
 
-        Log.i("INFO", "Search Text - " + searchText);
-
+        //  Validate search input string
         if (searchText.equals("")) {
+
             invalidTextToast();
             return;
         }
+
         String apiKey = getString(R.string.api_key);
 
         Gson gson = new GsonBuilder().create();
@@ -81,13 +85,13 @@ public class MainActivity extends AppCompatActivity {
 
         productsAPI = retrofit.create(ProductsAPI.class);
 
+        //  Use retrofit method to implement GET list of products from API
         Call<ProductsAPIResult> productsAPIResult = productsAPI.getProducts(searchText, apiKey);
 
         productsAPIResult.enqueue(new Callback<ProductsAPIResult>() {
+
             @Override
             public void onResponse(Call<ProductsAPIResult> call, Response<ProductsAPIResult> response) {
-
-                Log.i("INFO", "Response - " + response.body().getCurrentResultCount());
 
                 if (response.body().getCurrentResultCount().equals("0")) {
 
@@ -95,13 +99,18 @@ public class MainActivity extends AppCompatActivity {
                 } else {
 
                     Gson gs = new Gson();
+
+                    //  Pick the first result from the search API response
                     String firstResult = gs.toJson(response.body().getProducts().get(0));
 
                     if (firstResult != null) {
+
+                        //  Pass the first result to the new activity to display product information
                         Intent intent = new Intent(MainActivity.this, ProductDetailActivity.class);
-                        intent.putExtra("product", firstResult);
+                        intent.putExtra(getResources().getString(R.string.product_intent), firstResult);
                         startActivity(intent);
                     } else {
+
                         noResultsToast();
                     }
                 }
@@ -109,24 +118,29 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ProductsAPIResult> call, Throwable t) {
+
                 Log.i("ERROR", t.getMessage());
                 errorToast();
             }
         });
 
+        //  Close the keyboard after the serach button is clicked
         InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         mgr.hideSoftInputFromWindow(searchEditText.getWindowToken(), 0);
     }
 
     public void noResultsToast() {
+
         Toast.makeText(getApplicationContext(), "No results found!!", Toast.LENGTH_LONG).show();
     }
 
     public void invalidTextToast() {
+
         Toast.makeText(getApplicationContext(), "Please enter a valid text!!", Toast.LENGTH_SHORT).show();
     }
 
     public void errorToast() {
+
         Toast.makeText(getApplicationContext(), "Could not complete search!!", Toast.LENGTH_LONG).show();
     }
 }

@@ -51,7 +51,7 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
-                android:text="Product ID:"
+                android:text="@string/productId_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/productIdLabel"

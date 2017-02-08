@@ -2,4 +2,10 @@
     <string name="app_name">ILoveZappos</string>
     <string name="api_base_url">https://api.zappos.com</string>
     <string name="api_key">b743e26728e16b81da139182bb2094357c31d331</string>
+    <string name="product_intent">product</string>
+    <string name="search_hint">Search here...</string>
+    <string name="search_button">Search</string>
+    <string name="productId_label">Product ID:</string>
+    <string name="shopping_cart_title">Shopping Cart</string>
+    <string name="share_title">Share</string>
 </resources>

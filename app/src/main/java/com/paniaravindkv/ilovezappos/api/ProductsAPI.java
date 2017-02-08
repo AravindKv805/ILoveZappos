@@ -13,6 +13,6 @@ import retrofit2.http.Query;
 public interface ProductsAPI {
 
     @GET("/Search")
-    Call<ProductsAPIResult> getProducts(@Query("term") String search, @Query("key") String api_key);
+    Call<ProductsAPIResult> getProducts(@Query("term") String search, @Query("key") String api_key);    //  API to get search results
 
 }
